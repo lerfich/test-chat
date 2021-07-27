@@ -8,8 +8,8 @@ import Chat from './components/Chat/Chat.js'
 import reducer from './reducer';
 import socket from './socket';
 
-import {BrowserRouter as Router, Switch, Route, Redirect} from 'react-router-dom'
-import { createBrowserHistory } from "history";
+import {BrowserRouter as Router, Route, Redirect} from 'react-router-dom'
+
 
 function App() {
   const [state, dispatch] = React.useReducer(reducer, {
@@ -20,44 +20,24 @@ function App() {
    messages: [],
   });
 
-  const history = createBrowserHistory();
+
+  //сохраняем номер комнаты из адресной строки (возможно без номера комнаты)
   const pathNameRoom = window.location.pathname.slice(1);
 
-  // const onLogin = async (obj) => {
-  //   dispatch({
-  //     type: 'JOINED',
-  //     payload: obj,
-  //   });
-  //   socket.emit('user-joined', obj);
-  //
-  //   const { data } = await axios.get(`/rooms/${obj.roomId}`);
-  //
-  //   dispatch({
-  //     type: 'CURRENT_DATA',
-  //     payload: data,
-  //   });
-  // }; //old version
-
-  // const isRoomExist = async (pathNameRoom) => {
-  //   const obj = await axios.get(`/${pathNameRoom}`);
-  //   if(pathNameRoom !== '' && obj.data == true){
-  //     dispatch({
-  //       type: 'SHOULDCREATE',
-  //       payload: {pathNameRoom, data}
-  //     });
-  //   }
-  // }
-
-  // const shouldCreateOrJoinRoom = (pathNameRoom, roomId) => {
-  //   return (pathNameRoom === roomId) ? 'JOIN' //если roomId уже существует (отправили ссылку)
-  //                                   : ((pathNameRoom === '') ? 'CREATE' : 'ERROR');  // вы заходите без id (хотите создать чат) или с неправильным id
-  // } //проверка: существует такая комната или нет
-
+  //при входе проверяем, есть ли в коллекции такая комната
+  //если в коллекции нашлась такая комната, устанавливаем номер комнаты, к которой подключаемся
+  //обновляем состояние пользователя, его комнаты
+  //отправляем этот объект на сервер, чтобы подключиться к сокету, обновить коллекцию и уведомить других пользователей
+  //получаем информацию о дугих пользователях в комнате, обновляем состояние комнаты
   const newOnLogin = async (obj) => {
-
     const isRoomExist = await axios.get(`/${pathNameRoom}`);
-    if(pathNameRoom !== '' && isRoomExist.data == true)
+    if(pathNameRoom !== '' && isRoomExist.data === true){
       obj.roomId = pathNameRoom
+    } else if (isRoomExist.data === false){
+      alert('Такой комнаты не существует, для Вас будет создана новая')
+    }
+
+
 
     dispatch({
       type: 'JOINED',
@@ -74,7 +54,7 @@ function App() {
 
   };
 
-
+  //функция для обновления состояния пользователей в комнате
   const getUsers = (users) => {
     dispatch({
       type: 'USER_LIST',
@@ -82,6 +62,7 @@ function App() {
     });
   };
 
+  //функция для обновления состояния сообщения в комнате
   const addMessage = message => {
     dispatch({
       type: 'NEW_MESSAGE',
@@ -89,17 +70,17 @@ function App() {
     });
   };
 
+  //устанавливаем сокеты на обработку появления новых пользователей и новых сообщений
   React.useEffect(() => {
     socket.on('show-active-users', getUsers);
     socket.on('new-message', addMessage);
-  }, []); //отобразить пользователей и предыдущие сообщения
+  }, []);
 
   window.socket = socket;
 
   return (
     <Router>
       <div className="wrapper">
-
             {!state.joined
             ?(
 
@@ -108,11 +89,7 @@ function App() {
             :(
                   <Redirect to={`/${state.roomId}`}/>
             )}
-
       </div>
-      {/*<Route exact path="/">
-        <LoginField onLogin={newOnLogin}/>
-      </Route>*/}
       <Route exact path={`/${state.roomId}`}>
         <Chat {...state} onAddMessage={addMessage}/>
       </Route>

@@ -4,11 +4,17 @@ import socket from '../../socket';
 import './Chat.css'
 
 function Chat({ users, messages, userName, roomId, onAddMessage}) {
+
+  //состояние текста сообщения
+  //ref чтобы можно было сохранить мутируемое свойство .current
   const [messageValue, setMessageValue] = React.useState('');
   const messagesRef = React.useRef(null);
 
+  //при отправке сообщения проверяем, не пусто ли оно
+  //отправляем сообщение (имя пользователя, комнату, текст и время) на сервер, чтобы добавить в коллекцию
+  //меняем состояния на клиентской части
   const onSendMessage = () => {
-    if(!!messageValue.split(' ').join('') == true){
+    if(!!messageValue.split(' ').join('') === true){
       const time = new Date().toString().slice(16, 21) + ' ';
       socket.emit('new-message', {
         userName,
@@ -23,6 +29,7 @@ function Chat({ users, messages, userName, roomId, onAddMessage}) {
     }
   };
 
+  //если добавляется сообщение, прокручиваем вниз чат
   React.useEffect(() => {
     messagesRef.current.scrollTo(0, 3333);
   }, [messages]);

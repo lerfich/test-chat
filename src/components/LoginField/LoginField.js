@@ -6,26 +6,14 @@ import './LoginField.css'
 
 function LoginField({ onLogin }){
 
-  // const [roomId, setRoomId] = React.useState(''); //больше не задаем
+  //состояния имени пользователя и загрузки
   const [userName, setUserName] = React.useState('');
   const [loading, setLoading] = React.useState(false);
 
-
-  // const onEnter = async () => {
-  //   if (!roomId || !userName) {
-  //     return alert('Неверные данные');
-  //   }
-  //
-  //   const obj = {
-  //     roomId,
-  //     userName,
-  //   };
-  //
-  //   setLoading(true);
-  //   await axios.post('/rooms', obj);
-  //   onLogin(obj);
-  // }; // old version
-
+  //входим в комнату с именем и roomId
+  //отображаем загрузку
+  //добавляем пользователя и комнату в коллекцию на сервере
+  //меняем состояния на клиентской части
   const joinRoom = async () => {
     if(!userName) {
       return alert('Введите имя');
@@ -45,12 +33,6 @@ function LoginField({ onLogin }){
 
   return (
       <div className="login-block">
-        {/*<input
-          type="text"
-          placeholder="Room ID"
-          value={roomId}
-          onChange={(e) => setRoomId(e.target.value)} //более не задаем
-        /> */}
         <input
           type="text"
           placeholder="Ваше имя"

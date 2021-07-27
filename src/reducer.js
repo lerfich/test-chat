@@ -1,4 +1,4 @@
-export default (state, action) => {
+const reducer = (state, action) => {
   switch (action.type) {
     case 'JOINED':
       return {
@@ -35,11 +35,10 @@ export default (state, action) => {
         userName: action.payload.obj.userName,
         roomId: action.payload.pathNameRoom,
 
-      }
-
-
+      };
 
     default:
       return state;
   }
 };
+export default reducer;
