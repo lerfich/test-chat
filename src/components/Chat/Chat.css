@@ -31,19 +31,32 @@
   margin-bottom: 20px;
 }
 
+.message.true {
+  text-align: right;
+}
+
 .message p {
   display: inline-flex;
-  border-radius: 10px;
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
-  background-color: #7160ff;
+  border-radius: 50px;
+  /* border-top: 1px solid rgba(0, 0, 0, 0.05); */
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  /* background-color: #7160ff; */
+  background-color: #fff;
   padding: 10px 15px 15px;
-  color: #fff;
+  color: #000;
   margin-bottom: 2px;
 }
 
 .message span {
-  opacity: 0.5;
-  font-size: 14px;
+  opacity: 0.9;
+  /* font-size: 14px; */
+  font-weight: 800;
+  color: rgba(42, 88, 133, 1);
+}
+.message span.time{
+  opacity: 0.55;
+  font-weight: 300;
+  color: rgba(148, 148, 148, 1);
 }
 
 .chat-users ul {

@@ -49,10 +49,11 @@ function Chat({ users, messages, userName, roomId, onAddMessage}) {
         <div className="chat-messages">
           <div ref={messagesRef} className="messages">
             {messages.map((message) => (
-              <div className="message">
+              <div className={"message " + (message.userName === userName)}>
                 <p>{message.text}</p>
                 <div>
-                  <span>{message.time + (message.userName.length > 27 ? (message.userName.slice(0, 40) + "...") : message.userName)}</span>
+                  <span>{(message.userName.length > 27 ? (message.userName.slice(0, 40) + "...") : message.userName)}</span>
+                  <span className="time">{' '+ message.time}</span>
                 </div>
               </div>
             ))}
