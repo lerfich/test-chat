@@ -1,9 +1,18 @@
 import React from 'react';
 import socket from '../../socket';
-
-import './Chat.css'
-
+import PropTypes from 'prop-types';
+import classes from './Chat.module.css'
+import globalStyles from '../../../node_modules/bootstrap/dist/css/bootstrap.css'
+import cx from 'classnames'
 function Chat({ users, messages, userName, roomId, onAddMessage}) {
+
+  Chat.propTypes = {
+    users: PropTypes.array.isRequired,
+    messages: PropTypes.array.isRequired,
+    userName: PropTypes.string.isRequired,
+    roomId: PropTypes.string.isRequired,
+    onAddMessage: PropTypes.func.isRequired,
+  }
 
   //состояние текста сообщения
   //ref чтобы можно было сохранить мутируемое свойство .current
@@ -35,36 +44,46 @@ function Chat({ users, messages, userName, roomId, onAddMessage}) {
   }, [messages]);
 
   return (
-      <div className="chat">
-        <div className="chat-users">
+      <div className={classes.chat}>
+        <div className={classes.chatUsers}>
           Комната: <b>{roomId}</b>
           <hr/>
           <b>Онлайн ({users.length}):</b>
-          <ul>
+          <ul className={classes.activeUserList}>
             {users.map((name, index) =>
-            (<li key={name + index} className={"active-" + (name === userName)}>{name.length > 17 ? (name.slice(0, 17) + "...") : name}</li>)
+               (name === userName) ? (<li key={name + index} className={classes.isMyself}> {name.length > 17 ? (name.slice(0, 17) + "...") : name} </li>)
+                                    : (<li key={name + index} className={classes.isOther}> {name.length > 17 ? (name.slice(0, 17) + "...") : name} </li>)
+            // (<li key={name + index} className={"active-" + (name === userName)}>{name.length > 17 ? (name.slice(0, 17) + "...") : name}</li>)
           )}
           </ul>
         </div>
-        <div className="chat-messages">
-          <div ref={messagesRef} className="messages">
-            {messages.map((message) => (
-              <div className={"message " + (message.userName === userName)}>
-                <p>{message.text}</p>
-                <div>
-                  <span>{(message.userName.length > 27 ? (message.userName.slice(0, 40) + "...") : message.userName)}</span>
-                  <span className="time">{' '+ message.time}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-          <form>
+        <div className={classes.chatMessages}>
+          <div ref={messagesRef} className={classes.messages}>
+            {messages.map((message) =>
+              (message.userName === userName)
+              ? (<div className={classes.messageTrue}>
+                    <p className={classes.messageText}>{message.text}</p>
+                    <div>
+                      <span className={classes.messageSender}>{(message.userName.length > 27 ? (message.userName.slice(0, 40) + "...") : message.userName)}</span>
+                      <span className={classes.time}>{' '+ message.time}</span>
+                    </div>
+                </div>)
+               : (<div className={classes.message}>
+                    <p className={classes.messageText}>{message.text}</p>
+                    <div>
+                      <span className={classes.messageSender}>{(message.userName.length > 27 ? (message.userName.slice(0, 40) + "...") : message.userName)}</span>
+                      <span className={classes.time}>{' '+ message.time}</span>
+                    </div>
+                  </div>
+                ))}
+            </div>
+          <form className={classes.formMessages}>
             <textarea
               value={messageValue}
               onChange={(e) => setMessageValue(e.target.value)}
-              className="form-control"
+              className={classes.formArea}
               rows="3"></textarea>
-            <button onClick={onSendMessage} type="button" className="btn btn-secondary">
+            <button onClick={onSendMessage} type="button" className={cx(globalStyles.btn, globalStyles['btn-secondary'])}>
               Отправить
             </button>
           </form>

@@ -1,4 +1,4 @@
-import './App.css';
+import classes from './App.module.css';
 import React from 'react';
 import axios from 'axios';
 
@@ -29,15 +29,13 @@ function App() {
   //обновляем состояние пользователя, его комнаты
   //отправляем этот объект на сервер, чтобы подключиться к сокету, обновить коллекцию и уведомить других пользователей
   //получаем информацию о дугих пользователях в комнате, обновляем состояние комнаты
-  const newOnLogin = async (obj) => {
+  const onLogin = async (obj) => {
     const isRoomExist = await axios.get(`/${pathNameRoom}`);
     if(pathNameRoom !== '' && isRoomExist.data === true){
       obj.roomId = pathNameRoom
     } else if (isRoomExist.data === false){
       alert('Такой комнаты не существует, для Вас будет создана новая')
     }
-
-
 
     dispatch({
       type: 'JOINED',
@@ -51,7 +49,6 @@ function App() {
       type: 'CURRENT_DATA',
       payload: data,
     });
-
   };
 
   //функция для обновления состояния пользователей в комнате
@@ -63,7 +60,7 @@ function App() {
   };
 
   //функция для обновления состояния сообщения в комнате
-  const addMessage = message => {
+  const addMessage = (message) => {
     dispatch({
       type: 'NEW_MESSAGE',
       payload: message
@@ -80,11 +77,11 @@ function App() {
 
   return (
     <Router>
-      <div className="wrapper">
+      <div className={classes.wrapper}>
             {!state.joined
             ?(
 
-                  <LoginField onLogin={newOnLogin}/>
+                  <LoginField onLogin={onLogin}/>
              )
             :(
                   <Redirect to={`/${state.roomId}`}/>

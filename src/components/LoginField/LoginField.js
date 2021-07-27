@@ -1,10 +1,16 @@
 import React from 'react';
 import axios from 'axios';
 import  rand  from './../function/randint.js'
-
-import './LoginField.css'
+import PropTypes from 'prop-types';
+import classes from './LoginField.module.css'
+import globalStyles from '../../../node_modules/bootstrap/dist/css/bootstrap.css'
+import cx from 'classnames'
 
 function LoginField({ onLogin }){
+
+  LoginField.propTypes = {
+    onLogin: PropTypes.func.isRequired,
+  }
 
   //состояния имени пользователя и загрузки
   const [userName, setUserName] = React.useState('');
@@ -32,20 +38,20 @@ function LoginField({ onLogin }){
   };
 
   return (
-      <div className="login-block">
+      <div className={classes.loginBlock}>
         <input
           type="text"
           placeholder="Ваше имя"
           value={userName}
           onChange={(e) => setUserName(e.target.value)}
         />
-        <button disabled={loading} onClick={joinRoom} className="btn btn-success">
+        <button disabled={loading} onClick={joinRoom}>
           {loading ? 'ВХОД...' : 'ВОЙТИ'}
+          {/*loading ? (<div className={classes.ldsRing}><div></div><div></div><div></div><div></div></div>) : 'ВОЙТИ'*/}
         </button>
       </div>
   );
 }
-
 
 
 export default LoginField;

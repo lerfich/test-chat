@@ -6,14 +6,14 @@
   overflow: hidden;
 }
 
-.chat-users {
+.chatUsers {
   border-right: 1px solid rgba(159, 183, 197, 0.1);
   padding: 20px;
   width: 200px;
   background-color: #f6f9fa;
 }
 
-.chat-messages {
+.chatMessages {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -31,11 +31,12 @@
   margin-bottom: 20px;
 }
 
-.message.true {
+.messageTrue {
+  margin-bottom: 20px;
   text-align: right;
 }
 
-.message p {
+.messageText {
   display: inline-flex;
   border-radius: 50px;
   /* border-top: 1px solid rgba(0, 0, 0, 0.05); */
@@ -47,25 +48,25 @@
   margin-bottom: 2px;
 }
 
-.message span {
+.messageSender {
   opacity: 0.9;
   /* font-size: 14px; */
   font-weight: 800;
   color: rgba(42, 88, 133, 1);
 }
-.message span.time{
+.time{
   opacity: 0.55;
   font-weight: 300;
   color: rgba(148, 148, 148, 1);
 }
 
-.chat-users ul {
+.activeUserList {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.chat-users ul li {
+.isOther, .isMyself {
   margin-top: 10px;
   border-radius: 3px;
   background-color: #fff;
@@ -74,19 +75,19 @@
   font-weight: 500;
 }
 
-.chat-messages form {
+.isMyself {
+  color: rgba(0, 168, 31, 0.87);
+}
+
+.formMessages {
   margin-top: 20px;
   padding-top: 20px;
   border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-.chat-messages form textarea {
+.formArea {
   width: 100%;
   margin-bottom: 10px;
-}
-
-.active-true {
-  color: rgba(0, 168, 31, 0.87);
 }
 
 .btn {
