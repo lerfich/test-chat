@@ -10,10 +10,11 @@ import Modal from '../Modal/Modal.js'
 
 function Chat({ users, messages, userName, roomId, onAddMessage}) {
 
-  //состояние текста сообщения
+  //состояние текста сообщения, сообщения
   //ref чтобы можно было сохранить мутируемое свойство .current
   const [messageValue, setMessageValue] = React.useState('');
   const messagesRef = React.useRef(null);
+  const textAreaRef = React.useRef(null);
 
   //состояние для модального окна
   const [isModal, setModal] = React.useState(false)
@@ -21,13 +22,22 @@ function Chat({ users, messages, userName, roomId, onAddMessage}) {
   //функция для закрытия модального окна
   const onClose = () => setModal(false)
 
+  //при нажатии на Enter сообщение отправляется
+  const onKeydown = ({ key }: KeyboardEvent) => {
+    switch (key) {
+      case 'Enter':
+        onSendMessage();
+        break;
+    }
+  }
 
   //при отправке сообщения проверяем, не пусто ли оно
   //отправляем сообщение (имя пользователя, комнату, текст и время) на сервер, чтобы добавить в коллекцию
   //меняем состояния на клиентской части
   const onSendMessage = () => {
     try {
-      if(!!messageValue.split(' ').join('') === true){
+      // if(!!messageValue.split(' ').join('') === true){
+      if(!!messageValue.replace(new RegExp("\\r?\\n", "g"), "") === true){
         const time = new Date().toString().slice(16, 21) + ' ';
         socket.emit('new-message', {
           userName,
@@ -38,7 +48,6 @@ function Chat({ users, messages, userName, roomId, onAddMessage}) {
         onAddMessage({ userName, text: messageValue, time});
         setMessageValue('');
       } else {
-        // alert('Введите сообщение');
         setModal(true);
       }
     } catch(err) {
@@ -50,6 +59,16 @@ function Chat({ users, messages, userName, roomId, onAddMessage}) {
   React.useEffect(() => {
     messagesRef.current.scrollTo(0, 3333);
   }, [messages]);
+
+  // React.useEffect(() => {
+  //   if(textAreaRef.current.focus())
+  //   messagesRef.current.scrollTo(0, 3333);
+  // }, [textAreaRef.current.focus()]);
+
+  React.useEffect(() => {
+    document.addEventListener('keydown', onKeydown)
+    return () => document.removeEventListener('keydown', onKeydown)
+  })
 
   return (
       <div className={classes.chat}>
@@ -71,6 +90,7 @@ function Chat({ users, messages, userName, roomId, onAddMessage}) {
           </div>
           <form className={classes.formMessages}>
             <textarea
+              ref={textAreaRef}
               value={messageValue}
               onChange={(e) => setMessageValue(e.target.value)}
               className={classes.formArea}

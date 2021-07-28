@@ -48,7 +48,7 @@ const Modal = ({
 Modal.propTypes = {
   visible: PropTypes.bool.isRequired,
   content: PropTypes.object.isRequired,
-  footer: PropTypes.object.isRequired,
+  footer: PropTypes.string.isRequired,
   onClose: PropTypes.func.isRequired,
 }
 

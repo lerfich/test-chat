@@ -41,7 +41,6 @@ function App() {
       if(pathNameRoom !== '' && isRoomExist.data === true){
         obj.roomId = pathNameRoom
       } else if (isRoomExist.data === false){
-        // alert('Такой комнаты не существует, для Вас будет создана новая')
         setModal(true);
       }
 

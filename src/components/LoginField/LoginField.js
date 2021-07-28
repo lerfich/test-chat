@@ -17,6 +17,15 @@ function LoginField({ onLogin }){
   //функция для закрытия модального окна
   const onClose = () => setModal(false)
 
+  //при нажатии на Enter выполняется попытка входа в чат
+  const onKeydown = ({ key }: KeyboardEvent) => {
+    switch (key) {
+      case 'Enter':
+        joinRoom();
+        break;
+    }
+  }
+
   //входим в комнату с именем и roomId
   //отображаем загрузку
   //добавляем пользователя и комнату в коллекцию на сервере
@@ -24,7 +33,6 @@ function LoginField({ onLogin }){
   const joinRoom = async () => {
     try {
       if(!userName) {
-        // return alert('Введите имя');
         setModal(true);
         return;
       }
@@ -43,6 +51,11 @@ function LoginField({ onLogin }){
       console.log(`Ошибка: ${err}`)
     }
   };
+
+  React.useEffect(() => {
+    document.addEventListener('keydown', onKeydown)
+    return () => document.removeEventListener('keydown', onKeydown)
+  })
 
   return (
       <div className={classes.loginBlock}>
