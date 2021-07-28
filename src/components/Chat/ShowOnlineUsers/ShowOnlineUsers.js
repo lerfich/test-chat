@@ -2,7 +2,6 @@ import classes from './ShowOnlineUsers.module.css'
 import PropTypes from 'prop-types';
 
 function ShowOnlineUsers({users, userName}) {
-
   return (
     <ul className={classes.activeUserList}>
       {users.map((name, index) =>

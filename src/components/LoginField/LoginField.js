@@ -4,6 +4,7 @@ import  rand  from './../function/randint.js'
 import PropTypes from 'prop-types';
 import classes from './LoginField.module.css'
 import Modal from '../Modal/Modal.js'
+import Loader from '../Loader/Loader.js'
 
 function LoginField({ onLogin }){
 
@@ -23,6 +24,7 @@ function LoginField({ onLogin }){
       case 'Enter':
         joinRoom();
         break;
+      default: break;  
     }
   }
 
@@ -72,8 +74,7 @@ function LoginField({ onLogin }){
           onChange={(e) => setUserName(e.target.value)}
         />
         <button disabled={loading} onClick={joinRoom}>
-          {loading ? 'ВХОД...' : 'ВОЙТИ'}
-          {/*loading ? (<div className={classes.ldsRing}><div></div><div></div><div></div><div></div></div>) : 'ВОЙТИ'*/}
+          {loading ? <Loader loading={true}/> : 'ВОЙТИ'}
         </button>
       </div>
   );

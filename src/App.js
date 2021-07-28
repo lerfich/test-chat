@@ -24,6 +24,9 @@ function App() {
   //состояние для модального окна
   const [isModal, setModal] = React.useState(false)
 
+  //состояние загрузки пользователей и онлайна
+  const [loading, setLoading] = React.useState(false);
+
   //функция для закрытия модального окна
   const onClose = () => setModal(false)
 
@@ -50,8 +53,11 @@ function App() {
       });
       socket.emit('user-joined', obj);
 
+      setLoading(true);
       const { data } = await axios.get(`/rooms/${obj.roomId}`);
-
+      if(data) {
+        setLoading(false);
+      }
       dispatch({
         type: 'CURRENT_DATA',
         payload: data,
@@ -113,7 +119,7 @@ function App() {
             )}
       </div>
       <Route exact path={`/${state.roomId}`}>
-        <Chat {...state} onAddMessage={addMessage}/>
+        <Chat {...state} onAddMessage={addMessage} loading={loading}/>
       </Route>
     </Router>
   );

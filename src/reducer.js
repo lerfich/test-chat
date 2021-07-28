@@ -34,7 +34,6 @@ const reducer = (state, action) => {
         joined: true,
         userName: action.payload.obj.userName,
         roomId: action.payload.pathNameRoom,
-
       };
 
     default:

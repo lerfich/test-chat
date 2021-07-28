@@ -1,13 +1,12 @@
 import classes from './Modal.module.css'
 import PropTypes from 'prop-types';
 
-import React, { ReactElement } from 'react'
-import ReactDOM from 'react-dom'
+import React from 'react'
 
 const Modal = ({
   visible = false,
-  content = '',
-  footer = '',
+  content = {},
+  footer = {},
   onClose,
 }: ModalProps) => {
   // создаем обработчик нажатия клавиши Esc
@@ -16,6 +15,7 @@ const Modal = ({
       case 'Escape':
         onClose()
         break
+      default: break;  
     }
   }
 
@@ -48,7 +48,7 @@ const Modal = ({
 Modal.propTypes = {
   visible: PropTypes.bool.isRequired,
   content: PropTypes.object.isRequired,
-  footer: PropTypes.string.isRequired,
+  footer: PropTypes.object.isRequired,
   onClose: PropTypes.func.isRequired,
 }
 

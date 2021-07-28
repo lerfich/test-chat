@@ -7,9 +7,9 @@ import cx from 'classnames'
 import ShowMessages from './ShowMessages/ShowMessages.js'
 import ShowOnlineUsers from './ShowOnlineUsers/ShowOnlineUsers.js'
 import Modal from '../Modal/Modal.js'
+import Loader from '../Loader/Loader.js'
 
-function Chat({ users, messages, userName, roomId, onAddMessage}) {
-
+function Chat({ users, messages, userName, roomId, onAddMessage, loading}) {
   //состояние текста сообщения, сообщения
   //ref чтобы можно было сохранить мутируемое свойство .current
   const [messageValue, setMessageValue] = React.useState('');
@@ -28,6 +28,7 @@ function Chat({ users, messages, userName, roomId, onAddMessage}) {
       case 'Enter':
         onSendMessage();
         break;
+      default: break;
     }
   }
 
@@ -83,6 +84,7 @@ function Chat({ users, messages, userName, roomId, onAddMessage}) {
           <hr/>
           <b>Онлайн ({users.length}):</b>
           <ShowOnlineUsers users={users} userName={userName}/>
+          <Loader loading={loading}/>
         </div>
         <div className={classes.chatMessages}>
           <div ref={messagesRef} className={classes.messages}>
@@ -110,6 +112,7 @@ Chat.propTypes = {
     userName: PropTypes.string,
     roomId: PropTypes.string,
     onAddMessage: PropTypes.func.isRequired,
+    loading: PropTypes.bool.isRequired,
 }
 
 export default Chat;

@@ -3,17 +3,18 @@ import PropTypes from 'prop-types';
 
 function ShowMessages({messages, userName}) {
 
+//верстка всех сообщений
   return (
-    messages.map((message) =>
+    messages.map((message, index) =>
       (message.userName === userName)
-      ? (<div className={classes.messageTrue}>
+      ? (<div key={message.userName+index} className={classes.messageTrue}>
             <p className={classes.messageText}>{message.text}</p>
             <div>
               <span className={classes.messageSender}>{(message.userName.length > 27 ? (message.userName.slice(0, 40) + "...") : message.userName)}</span>
               <span className={classes.time}>{' '+ message.time}</span>
             </div>
         </div>)
-       : (<div className={classes.message}>
+       : (<div key={message.userName+index} className={classes.message}>
             <p className={classes.messageText}>{message.text}</p>
             <div>
               <span className={classes.messageSender}>{(message.userName.length > 27 ? (message.userName.slice(0, 40) + "...") : message.userName)}</span>
