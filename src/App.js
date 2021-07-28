@@ -99,7 +99,6 @@ function App() {
     <Router>
       <Modal
           visible={isModal}
-          title='Заголовок'
           content={<p>Такой комнаты не существует, для Вас была создана новая</p>}
           footer={<button onClick={onClose}>Закрыть</button>}
           onClose={onClose}

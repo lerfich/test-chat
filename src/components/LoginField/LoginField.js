@@ -48,7 +48,6 @@ function LoginField({ onLogin }){
       <div className={classes.loginBlock}>
         <Modal
             visible={isModal}
-            title='Заголовок'
             content={<p>Введите имя</p>}
             footer={<button onClick={onClose}>Закрыть</button>}
             onClose={onClose}

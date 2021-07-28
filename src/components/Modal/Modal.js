@@ -6,7 +6,6 @@ import ReactDOM from 'react-dom'
 
 const Modal = ({
   visible = false,
-  title = '',
   content = '',
   footer = '',
   onClose,
@@ -33,7 +32,6 @@ const Modal = ({
     <div className={classes.modal} onClick={onClose}>
       <div className={classes.modalDialog} onClick={e => e.stopPropagation()}>
         <div className={classes.modalHeader}>
-          <h3 className={classes.modalTitle}>{title}</h3>
           <span className={classes.modalClose} onClick={onClose}>
             &times;
           </span>
@@ -49,9 +47,8 @@ const Modal = ({
 
 Modal.propTypes = {
   visible: PropTypes.bool.isRequired,
-  title: PropTypes.string.isRequired,
-  content: PropTypes.string.isRequired,
-  footer: PropTypes.string.isRequired,
+  content: PropTypes.object.isRequired,
+  footer: PropTypes.object.isRequired,
   onClose: PropTypes.func.isRequired,
 }
 

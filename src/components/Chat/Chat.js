@@ -6,6 +6,7 @@ import globalStyles from '../../../node_modules/bootstrap/dist/css/bootstrap.css
 import cx from 'classnames'
 import ShowMessages from './ShowMessages/ShowMessages.js'
 import ShowOnlineUsers from './ShowOnlineUsers/ShowOnlineUsers.js'
+import Modal from '../Modal/Modal.js'
 
 function Chat({ users, messages, userName, roomId, onAddMessage}) {
 
@@ -13,6 +14,13 @@ function Chat({ users, messages, userName, roomId, onAddMessage}) {
   //ref чтобы можно было сохранить мутируемое свойство .current
   const [messageValue, setMessageValue] = React.useState('');
   const messagesRef = React.useRef(null);
+
+  //состояние для модального окна
+  const [isModal, setModal] = React.useState(false)
+
+  //функция для закрытия модального окна
+  const onClose = () => setModal(false)
+
 
   //при отправке сообщения проверяем, не пусто ли оно
   //отправляем сообщение (имя пользователя, комнату, текст и время) на сервер, чтобы добавить в коллекцию
@@ -30,7 +38,8 @@ function Chat({ users, messages, userName, roomId, onAddMessage}) {
         onAddMessage({ userName, text: messageValue, time});
         setMessageValue('');
       } else {
-        alert('Введите сообщение');
+        // alert('Введите сообщение');
+        setModal(true);
       }
     } catch(err) {
       console.log(`Ошибка: ${err}`)
@@ -44,6 +53,12 @@ function Chat({ users, messages, userName, roomId, onAddMessage}) {
 
   return (
       <div className={classes.chat}>
+        <Modal
+            visible={isModal}
+            content={<p>Введите сообщение</p>}
+            footer={<button onClick={onClose}>Закрыть</button>}
+            onClose={onClose}
+        />
         <div className={classes.chatUsers}>
           Комната: <b>{roomId}</b>
           <hr/>

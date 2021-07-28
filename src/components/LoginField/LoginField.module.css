@@ -13,9 +13,8 @@
 }
 
 .loginBlock button {
-  width: 80%;
+  width: 100%;
   padding: 10px;
-  margin-left: 10%;
   margin-top: 10px;
   font-weight: bold;
   cursor: pointer;

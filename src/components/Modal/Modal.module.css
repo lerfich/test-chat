@@ -44,7 +44,7 @@
 }
 .modalFooter {
   border-top: 1px solid #dbdbdb;
-  justify-content: flex-end;
+  justify-content: center;
 }
 .modalClose {
   cursor: pointer;
@@ -56,6 +56,8 @@
 }
 .modalContent {
   padding: 1rem;
+  text-align: center;
+  padding-top: 5%;
 }
 
 .modalTitle {
