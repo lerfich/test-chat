@@ -4,6 +4,7 @@ import axios from 'axios';
 
 import LoginField from './components/LoginField/LoginField.js'
 import Chat from './components/Chat/Chat.js'
+import Modal from './components/Modal/Modal.js'
 
 import reducer from './reducer';
 import socket from './socket';
@@ -20,6 +21,11 @@ function App() {
    messages: [],
   });
 
+  //состояние для модального окна
+  const [isModal, setModal] = React.useState(false)
+
+  //функция для закрытия модального окна
+  const onClose = () => setModal(false)
 
   //сохраняем номер комнаты из адресной строки (возможно без номера комнаты)
   const pathNameRoom = window.location.pathname.slice(1);
@@ -30,41 +36,55 @@ function App() {
   //отправляем этот объект на сервер, чтобы подключиться к сокету, обновить коллекцию и уведомить других пользователей
   //получаем информацию о дугих пользователях в комнате, обновляем состояние комнаты
   const onLogin = async (obj) => {
-    const isRoomExist = await axios.get(`/${pathNameRoom}`);
-    if(pathNameRoom !== '' && isRoomExist.data === true){
-      obj.roomId = pathNameRoom
-    } else if (isRoomExist.data === false){
-      alert('Такой комнаты не существует, для Вас будет создана новая')
+    try {
+      const isRoomExist = await axios.get(`/${pathNameRoom}`);
+      if(pathNameRoom !== '' && isRoomExist.data === true){
+        obj.roomId = pathNameRoom
+      } else if (isRoomExist.data === false){
+        // alert('Такой комнаты не существует, для Вас будет создана новая')
+        setModal(true);
+      }
+
+      dispatch({
+        type: 'JOINED',
+        payload: obj,
+      });
+      socket.emit('user-joined', obj);
+
+      const { data } = await axios.get(`/rooms/${obj.roomId}`);
+
+      dispatch({
+        type: 'CURRENT_DATA',
+        payload: data,
+      });
+    } catch(err) {
+      console.log(`Ошибка: ${err}`)
     }
 
-    dispatch({
-      type: 'JOINED',
-      payload: obj,
-    });
-    socket.emit('user-joined', obj);
-
-    const { data } = await axios.get(`/rooms/${obj.roomId}`);
-
-    dispatch({
-      type: 'CURRENT_DATA',
-      payload: data,
-    });
   };
 
   //функция для обновления состояния пользователей в комнате
   const getUsers = (users) => {
-    dispatch({
-      type: 'USER_LIST',
-      payload: users,
-    });
+    try {
+      dispatch({
+        type: 'USER_LIST',
+        payload: users,
+      });
+    } catch(err) {
+      console.log(`Ошибка: ${err}`)
+    }
   };
 
   //функция для обновления состояния сообщения в комнате
   const addMessage = (message) => {
-    dispatch({
-      type: 'NEW_MESSAGE',
-      payload: message
-    });
+    try {
+      dispatch({
+        type: 'NEW_MESSAGE',
+        payload: message
+      });
+    } catch(err) {
+      console.log(`Ошибка: ${err}`)
+    }
   };
 
   //устанавливаем сокеты на обработку появления новых пользователей и новых сообщений
@@ -77,6 +97,13 @@ function App() {
 
   return (
     <Router>
+      <Modal
+          visible={isModal}
+          title='Заголовок'
+          content={<p>Такой комнаты не существует, для Вас была создана новая</p>}
+          footer={<button onClick={onClose}>Закрыть</button>}
+          onClose={onClose}
+      />
       <div className={classes.wrapper}>
             {!state.joined
             ?(
@@ -90,9 +117,6 @@ function App() {
       <Route exact path={`/${state.roomId}`}>
         <Chat {...state} onAddMessage={addMessage}/>
       </Route>
-      {/*<Route component={NoPageFound} />
-        exact path={`${root}/success`}*/
-      }
     </Router>
   );
 }

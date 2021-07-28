@@ -18,18 +18,22 @@ function Chat({ users, messages, userName, roomId, onAddMessage}) {
   //отправляем сообщение (имя пользователя, комнату, текст и время) на сервер, чтобы добавить в коллекцию
   //меняем состояния на клиентской части
   const onSendMessage = () => {
-    if(!!messageValue.split(' ').join('') === true){
-      const time = new Date().toString().slice(16, 21) + ' ';
-      socket.emit('new-message', {
-        userName,
-        roomId,
-        text: messageValue,
-        time,
-      });
-      onAddMessage({ userName, text: messageValue, time});
-      setMessageValue('');
-    } else {
-      alert('Введите сообщение');
+    try {
+      if(!!messageValue.split(' ').join('') === true){
+        const time = new Date().toString().slice(16, 21) + ' ';
+        socket.emit('new-message', {
+          userName,
+          roomId,
+          text: messageValue,
+          time,
+        });
+        onAddMessage({ userName, text: messageValue, time});
+        setMessageValue('');
+      } else {
+        alert('Введите сообщение');
+      }
+    } catch(err) {
+      console.log(`Ошибка: ${err}`)
     }
   };
 
