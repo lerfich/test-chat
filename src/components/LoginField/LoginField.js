@@ -13,7 +13,7 @@ function LoginField({ onLogin }){
   const [loading, setLoading] = React.useState(false);
 
   //состояние для модального окна
-  const [isModal, setModal] = React.useState(false)
+  const [isModal, setModal] = React.useState(false);
 
   //функция для закрытия модального окна
   const onClose = () => setModal(false)

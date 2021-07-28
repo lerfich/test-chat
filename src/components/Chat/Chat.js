@@ -51,7 +51,7 @@ function Chat({ users, messages, userName, roomId, onAddMessage, loading}) {
         setModal(true);
       }
     } catch(err) {
-      console.log(`Ошибка: ${err}`)
+      console.log(`Ошибка: ${err}`);
     }
   };
 
