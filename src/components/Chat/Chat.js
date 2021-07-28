@@ -9,14 +9,6 @@ import ShowOnlineUsers from './ShowOnlineUsers/ShowOnlineUsers.js'
 
 function Chat({ users, messages, userName, roomId, onAddMessage}) {
 
-  Chat.propTypes = {
-    users: PropTypes.array.isRequired,
-    messages: PropTypes.array.isRequired,
-    userName: PropTypes.string.isRequired,
-    roomId: PropTypes.string.isRequired,
-    onAddMessage: PropTypes.func.isRequired,
-  }
-
   //состояние текста сообщения
   //ref чтобы можно было сохранить мутируемое свойство .current
   const [messageValue, setMessageValue] = React.useState('');
@@ -57,13 +49,13 @@ function Chat({ users, messages, userName, roomId, onAddMessage}) {
         <div className={classes.chatMessages}>
           <div ref={messagesRef} className={classes.messages}>
                 <ShowMessages messages={messages} userName={userName}/>
-            </div>
+          </div>
           <form className={classes.formMessages}>
             <textarea
               value={messageValue}
               onChange={(e) => setMessageValue(e.target.value)}
               className={classes.formArea}
-              rows="3"></textarea>
+              rows="3"/>
             <button onClick={onSendMessage} type="button" className={cx(globalStyles.btn, globalStyles['btn-secondary'])}>
               Отправить
             </button>
@@ -71,6 +63,14 @@ function Chat({ users, messages, userName, roomId, onAddMessage}) {
         </div>
       </div>
   );
+}
+
+Chat.propTypes = {
+    users: PropTypes.array.isRequired,
+    messages: PropTypes.array.isRequired,
+    userName: PropTypes.string,
+    roomId: PropTypes.string,
+    onAddMessage: PropTypes.func.isRequired,
 }
 
 export default Chat;

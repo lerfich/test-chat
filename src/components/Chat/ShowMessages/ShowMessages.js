@@ -24,4 +24,9 @@ function ShowMessages({messages, userName}) {
   );
 }
 
+ShowMessages.propTypes = {
+    messages: PropTypes.array.isRequired,
+    userName: PropTypes.string.isRequired,
+}
+
 export default ShowMessages;

@@ -13,4 +13,9 @@ function ShowOnlineUsers({users, userName}) {
   );
 }
 
+ShowOnlineUsers.propTypes = {
+    users: PropTypes.array.isRequired,
+    userName: PropTypes.string.isRequired,
+}
+
 export default ShowOnlineUsers;

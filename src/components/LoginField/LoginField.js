@@ -3,14 +3,8 @@ import axios from 'axios';
 import  rand  from './../function/randint.js'
 import PropTypes from 'prop-types';
 import classes from './LoginField.module.css'
-import globalStyles from '../../../node_modules/bootstrap/dist/css/bootstrap.css'
-import cx from 'classnames'
 
 function LoginField({ onLogin }){
-
-  LoginField.propTypes = {
-    onLogin: PropTypes.func.isRequired,
-  }
 
   //состояния имени пользователя и загрузки
   const [userName, setUserName] = React.useState('');
@@ -53,5 +47,8 @@ function LoginField({ onLogin }){
   );
 }
 
+LoginField.propTypes = {
+  onLogin: PropTypes.func.isRequired,
+}
 
 export default LoginField;
