@@ -24,7 +24,7 @@ function LoginField({ onLogin }){
       case 'Enter':
         joinRoom();
         break;
-      default: break;  
+      default: break;
     }
   }
 
@@ -34,7 +34,7 @@ function LoginField({ onLogin }){
   //меняем состояния на клиентской части
   const joinRoom = async () => {
     try {
-      if(!userName) {
+      if(!!userName.trim() === false) {
         setModal(true);
         return;
       }

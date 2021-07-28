@@ -37,8 +37,7 @@ function Chat({ users, messages, userName, roomId, onAddMessage, loading}) {
   //меняем состояния на клиентской части
   const onSendMessage = () => {
     try {
-      // if(!!messageValue.split(' ').join('') === true){
-      if(!!messageValue.replace(new RegExp("\\r?\\n", "g"), "") === true){
+      if(!!messageValue.trim()){
         const time = new Date().toString().slice(16, 21) + ' ';
         socket.emit('new-message', {
           userName,

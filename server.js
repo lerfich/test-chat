@@ -130,6 +130,7 @@ function disconnectUser(socketId){
       currentUsers.push(users)
       currentRooms.push(roomId)
     }
+
   });
   return {currentRooms, currentUsers}
 }
