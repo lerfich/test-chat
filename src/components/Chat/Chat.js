@@ -4,6 +4,9 @@ import PropTypes from 'prop-types';
 import classes from './Chat.module.css'
 import globalStyles from '../../../node_modules/bootstrap/dist/css/bootstrap.css'
 import cx from 'classnames'
+import ShowMessages from './ShowMessages/ShowMessages.js'
+import ShowOnlineUsers from './ShowOnlineUsers/ShowOnlineUsers.js'
+
 function Chat({ users, messages, userName, roomId, onAddMessage}) {
 
   Chat.propTypes = {
@@ -49,33 +52,11 @@ function Chat({ users, messages, userName, roomId, onAddMessage}) {
           Комната: <b>{roomId}</b>
           <hr/>
           <b>Онлайн ({users.length}):</b>
-          <ul className={classes.activeUserList}>
-            {users.map((name, index) =>
-               (name === userName) ? (<li key={name + index} className={classes.isMyself}> {name.length > 17 ? (name.slice(0, 17) + "...") : name} </li>)
-                                    : (<li key={name + index} className={classes.isOther}> {name.length > 17 ? (name.slice(0, 17) + "...") : name} </li>)
-            // (<li key={name + index} className={"active-" + (name === userName)}>{name.length > 17 ? (name.slice(0, 17) + "...") : name}</li>)
-          )}
-          </ul>
+          <ShowOnlineUsers users={users} userName={userName}/>
         </div>
         <div className={classes.chatMessages}>
           <div ref={messagesRef} className={classes.messages}>
-            {messages.map((message) =>
-              (message.userName === userName)
-              ? (<div className={classes.messageTrue}>
-                    <p className={classes.messageText}>{message.text}</p>
-                    <div>
-                      <span className={classes.messageSender}>{(message.userName.length > 27 ? (message.userName.slice(0, 40) + "...") : message.userName)}</span>
-                      <span className={classes.time}>{' '+ message.time}</span>
-                    </div>
-                </div>)
-               : (<div className={classes.message}>
-                    <p className={classes.messageText}>{message.text}</p>
-                    <div>
-                      <span className={classes.messageSender}>{(message.userName.length > 27 ? (message.userName.slice(0, 40) + "...") : message.userName)}</span>
-                      <span className={classes.time}>{' '+ message.time}</span>
-                    </div>
-                  </div>
-                ))}
+                <ShowMessages messages={messages} userName={userName}/>
             </div>
           <form className={classes.formMessages}>
             <textarea

@@ -60,13 +60,13 @@
   color: rgba(148, 148, 148, 1);
 }
 
-.activeUserList {
+/* .activeUserList {
   list-style: none;
   padding: 0;
   margin: 0;
-}
+} */
 
-.isOther, .isMyself {
+/* .isOther, .isMyself {
   margin-top: 10px;
   border-radius: 3px;
   background-color: #fff;
@@ -77,7 +77,7 @@
 
 .isMyself {
   color: rgba(0, 168, 31, 0.87);
-}
+} */
 
 .formMessages {
   margin-top: 20px;
