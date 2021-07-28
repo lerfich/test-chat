@@ -60,11 +60,6 @@ function Chat({ users, messages, userName, roomId, onAddMessage, loading}) {
     messagesRef.current.scrollTo(0, 3333);
   }, [messages]);
 
-  // React.useEffect(() => {
-  //   if(textAreaRef.current.focus())
-  //   messagesRef.current.scrollTo(0, 3333);
-  // }, [textAreaRef.current.focus()]);
-
   React.useEffect(() => {
     document.addEventListener('keydown', onKeydown)
     return () => document.removeEventListener('keydown', onKeydown)
